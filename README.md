@@ -44,7 +44,7 @@ A modern, real-time password strength analyzer with beautiful UI and comprehensi
 ### Option 2: Local Development
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/password-strength-checker.git
+git clone https://github.com/akmal29005/password-strength-checker.git
 
 # Navigate to project directory
 cd password-strength-checker
