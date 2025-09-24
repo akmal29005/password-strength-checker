@@ -36,24 +36,7 @@ A modern, real-time password strength analyzer with beautiful UI and comprehensi
 
 ## 📦 Installation & Setup
 
-### Option 1: GitHub Pages (Recommended)
-1. Fork this repository
-2. Enable GitHub Pages in repository settings
-3. Your site will be live at `https://akmal29005.github.io/password-strength-checker/`
-
-### Option 2: Local Development
-```bash
-# Clone the repository
-git clone https://github.com/akmal29005/password-strength-checker.git
-
-# Navigate to project directory
-cd password-strength-checker
-
-# Open in browser
-open index.html
-```
-
-### Option 3: Download
+### Download
 1. Download the `index.html` file
 2. Open it in any modern web browser
 3. No installation required!
