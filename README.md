@@ -137,6 +137,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - UI design influenced by contemporary web trends
 - Security algorithms based on NIST guidelines
 
-**Made with ❤️ by [Your Name]**
+**Made with ❤️ by [Che AKmal]**
 
 *If you found this project helpful, please give it a ⭐ star on GitHub!*
