@@ -25,7 +25,7 @@ A modern, real-time password strength analyzer with beautiful UI and comprehensi
 
 ## 🚀 Live Demo
 
-[View Live Demo](https://akmal29005.github.io/password-strength-checker) *(Replace with your GitHub Pages URL)*
+[View Live Demo](https://akmal29005.github.io/password-strength-checker/) *(Replace with your GitHub Pages URL)*
 
 ## 🛠️ Technologies Used
 
@@ -39,7 +39,7 @@ A modern, real-time password strength analyzer with beautiful UI and comprehensi
 ### Option 1: GitHub Pages (Recommended)
 1. Fork this repository
 2. Enable GitHub Pages in repository settings
-3. Your site will be live at `https://yourusername.github.io/password-strength-checker`
+3. Your site will be live at `https://akmal29005.github.io/password-strength-checker/`
 
 ### Option 2: Local Development
 ```bash
