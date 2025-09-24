@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Strength Checker</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #ac670c 0%, #bd1ea2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        .password-input {
+            width: 100%;
+            padding: 15px 50px 15px 15px;
+            border: 2px solid #e1e5e9;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .password-input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #666;
+            font-size: 18px;
+            padding: 5px;
+        }
+
+        .toggle-password:hover {
+            color: #333;
+        }
+
+        .strength-meter {
+            margin-bottom: 20px;
+        }
+
+        .strength-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .strength-text {
+            font-size: 14px;
+        }
+
+        .strength-score {
+            font-size: 14px;
+        }
+
+        .strength-bar {
+            height: 8px;
+            background: #f0f0f0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .strength-fill {
+            height: 100%;
+            transition: all 0.3s ease;
+            border-radius: 4px;
+        }
+
+        .strength-very-weak { background: #ff4757; }
+        .strength-weak { background: #ff6b7a; }
+        .strength-fair { background: #ffa726; }
+        .strength-good { background: #66bb6a; }
+        .strength-strong { background: #4caf50; }
+
+        .requirements {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .requirements h3 {
+            margin-bottom: 15px;
+            color: #333;
+            font-size: 1.1rem;
+        }
+
+        .requirement {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .requirement-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin-right: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .requirement.met {
+            color: #4caf50;
+        }
+
+        .requirement.met .requirement-icon {
+            background: #4caf50;
+            color: white;
+        }
+
+        .requirement:not(.met) {
+            color: #666;
+        }
+
+        .requirement:not(.met) .requirement-icon {
+            background: #ddd;
+            color: #666;
+        }
+
+        .tips {
+            background: #e3f2fd;
+            border-radius: 12px;
+            padding: 20px;
+            border-left: 4px solid #2196f3;
+        }
+
+        .tips h3 {
+            color: #1976d2;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .tips ul {
+            list-style: none;
+            color: #333;
+        }
+
+        .tips li {
+            margin-bottom: 8px;
+            font-size: 14px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .tips li::before {
+            content: "💡";
+            position: absolute;
+            left: 0;
+        }
+
+        .crack-time {
+            background: #fff3e0;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+            border-left: 4px solid #ff9800;
+        }
+
+        .crack-time h3 {
+            color: #f57c00;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .crack-time-value {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 30px 20px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔒 Password Strength Checker</h1>
+        
+        <div class="input-group">
+            <input type="password" id="passwordInput" class="password-input" placeholder="Enter your password">
+            <button type="button" id="togglePassword" class="toggle-password">👁️</button>
+        </div>
+
+        <div class="strength-meter">
+            <div class="strength-label">
+                <span class="strength-text" id="strengthText">Enter a password</span>
+                <span class="strength-score" id="strengthScore"></span>
+            </div>
+            <div class="strength-bar">
+                <div class="strength-fill" id="strengthFill" style="width: 0%;"></div>
+            </div>
+        </div>
+
+        <div class="requirements">
+            <h3>Password Requirements</h3>
+            <div class="requirement" id="lengthReq">
+                <div class="requirement-icon">✓</div>
+                <span>At least 8 characters long</span>
+            </div>
+            <div class="requirement" id="lowercaseReq">
+                <div class="requirement-icon">✓</div>
+                <span>Contains lowercase letters (a-z)</span>
+            </div>
+            <div class="requirement" id="uppercaseReq">
+                <div class="requirement-icon">✓</div>
+                <span>Contains uppercase letters (A-Z)</span>
+            </div>
+            <div class="requirement" id="numberReq">
+                <div class="requirement-icon">✓</div>
+                <span>Contains numbers (0-9)</span>
+            </div>
+            <div class="requirement" id="specialReq">
+                <div class="requirement-icon">✓</div>
+                <span>Contains special characters (!@#$%^&*)</span>
+            </div>
+            <div class="requirement" id="uniqueReq">
+                <div class="requirement-icon">✓</div>
+                <span>No repeated characters</span>
+            </div>
+        </div>
+
+        <div class="crack-time" id="crackTime" style="display: none;">
+            <h3>🕒 Time to Crack</h3>
+            <div class="crack-time-value" id="crackTimeValue">-</div>
+        </div>
+
+        <div class="tips">
+            <h3>Tips for Strong Passwords !!</h3>
+            <ul>
+                <li>Use a mix of uppercase and lowercase letters</li>
+                <li>Include numbers and special characters</li>
+                <li>Make it at least 12 characters long</li>
+                <li>Avoid common words and personal information</li>
+                <li>Use a unique password for each account</li>
+                <li>Consider using a passphrase with spaces</li>
+                <li>Enable two-factor authentication when possible</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        const passwordInput = document.getElementById('passwordInput');
+        const togglePassword = document.getElementById('togglePassword');
+        const strengthText = document.getElementById('strengthText');
+        const strengthScore = document.getElementById('strengthScore');
+        const strengthFill = document.getElementById('strengthFill');
+        const crackTime = document.getElementById('crackTime');
+        const crackTimeValue = document.getElementById('crackTimeValue');
+
+        const requirements = {
+            length: document.getElementById('lengthReq'),
+            lowercase: document.getElementById('lowercaseReq'),
+            uppercase: document.getElementById('uppercaseReq'),
+            number: document.getElementById('numberReq'),
+            special: document.getElementById('specialReq'),
+            unique: document.getElementById('uniqueReq')
+        };
+
+        togglePassword.addEventListener('click', () => {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            togglePassword.textContent = type === 'password' ? '👁️' : '🙈';
+        });
+
+        passwordInput.addEventListener('input', (e) => {
+            const password = e.target.value;
+            checkPasswordStrength(password);
+        });
+
+        function checkPasswordStrength(password) {
+            if (!password) {
+                resetDisplay();
+                return;
+            }
+
+            const checks = {
+                length: password.length >= 8,
+                lowercase: /[a-z]/.test(password),
+                uppercase: /[A-Z]/.test(password),
+                number: /\d/.test(password),
+                special: /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password),
+                unique: !hasRepeatedChars(password)
+            };
+
+            updateRequirements(checks);
+            const strength = calculateStrength(password, checks);
+            updateStrengthDisplay(strength);
+            updateCrackTime(password, strength);
+        }
+
+        function hasRepeatedChars(password) {
+            const charCount = {};
+            for (let char of password) {
+                charCount[char] = (charCount[char] || 0) + 1;
+                if (charCount[char] > 2) return true;
+            }
+            return false;
+        }
+
+        function updateRequirements(checks) {
+            Object.keys(checks).forEach(key => {
+                const element = requirements[key];
+                if (checks[key]) {
+                    element.classList.add('met');
+                } else {
+                    element.classList.remove('met');
+                }
+            });
+        }
+
+        function calculateStrength(password, checks) {
+            let score = 0;
+            const length = password.length;
+
+            // Base score from checks
+            Object.values(checks).forEach(check => {
+                if (check) score += 1;
+            });
+
+            // Length bonus
+            if (length >= 12) score += 2;
+            else if (length >= 10) score += 1;
+
+            // Diversity bonus
+            const charTypes = new Set();
+            for (let char of password) {
+                if (/[a-z]/.test(char)) charTypes.add('lower');
+                if (/[A-Z]/.test(char)) charTypes.add('upper');
+                if (/\d/.test(char)) charTypes.add('number');
+                if (/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(char)) charTypes.add('special');
+            }
+            
+            if (charTypes.size >= 4) score += 1;
+
+            // Penalty for common patterns
+            if (/123|abc|password|qwerty/i.test(password)) score -= 2;
+
+            return Math.max(0, Math.min(10, score));
+        }
+
+        function updateStrengthDisplay(score) {
+            const percentage = (score / 10) * 100;
+            let strengthClass, strengthLabel;
+
+            if (score <= 2) {
+                strengthClass = 'strength-very-weak';
+                strengthLabel = 'Very Weak';
+            } else if (score <= 4) {
+                strengthClass = 'strength-weak';
+                strengthLabel = 'Weak';
+            } else if (score <= 6) {
+                strengthClass = 'strength-fair';
+                strengthLabel = 'Fair';
+            } else if (score <= 8) {
+                strengthClass = 'strength-good';
+                strengthLabel = 'Good';
+            } else {
+                strengthClass = 'strength-strong';
+                strengthLabel = 'Strong';
+            }
+
+            strengthFill.className = `strength-fill ${strengthClass}`;
+            strengthFill.style.width = `${percentage}%`;
+            strengthText.textContent = strengthLabel;
+            strengthScore.textContent = `${score}/10`;
+        }
+
+        function updateCrackTime(password, score) {
+            if (!password) {
+                crackTime.style.display = 'none';
+                return;
+            }
+
+            crackTime.style.display = 'block';
+            
+            // Simplified crack time calculation
+            const length = password.length;
+            const charset = getCharsetSize(password);
+            const combinations = Math.pow(charset, length);
+            
+            // Assume 1 billion guesses per second
+            const secondsToCrack = combinations / (2 * 1000000000);
+            
+            crackTimeValue.textContent = formatTime(secondsToCrack);
+        }
+
+        function getCharsetSize(password) {
+            let size = 0;
+            if (/[a-z]/.test(password)) size += 26;
+            if (/[A-Z]/.test(password)) size += 26;
+            if (/\d/.test(password)) size += 10;
+            if (/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password)) size += 32;
+            return size || 1;
+        }
+
+        function formatTime(seconds) {
+            if (seconds < 1) return 'Instantly';
+            if (seconds < 60) return `${Math.round(seconds)} seconds`;
+            if (seconds < 3600) return `${Math.round(seconds / 60)} minutes`;
+            if (seconds < 86400) return `${Math.round(seconds / 3600)} hours`;
+            if (seconds < 2592000) return `${Math.round(seconds / 86400)} days`;
+            if (seconds < 31536000) return `${Math.round(seconds / 2592000)} months`;
+            if (seconds < 31536000000) return `${Math.round(seconds / 31536000)} years`;
+            return 'Centuries';
+        }
+
+        function resetDisplay() {
+            strengthFill.style.width = '0%';
+            strengthFill.className = 'strength-fill';
+            strengthText.textContent = 'Enter a password';
+            strengthScore.textContent = '';
+            crackTime.style.display = 'none';
+            
+            Object.values(requirements).forEach(element => {
+                element.classList.remove('met');
+            });
+        }
+    </script>
+</body>
+</html>
