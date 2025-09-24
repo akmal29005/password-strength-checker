@@ -120,7 +120,7 @@ Contributions are welcome! Here's how you can help:
 
 1. **Fork** the repository
 
-### Ideas for Contributions
+### Ideas for Future Imporvement
 - Additional language support
 - New password strength algorithms
 - Dark/light theme toggle
