@@ -158,15 +158,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - UI design influenced by contemporary web trends
 - Security algorithms based on NIST guidelines
 
-## 📊 Project Stats
-
-- **File Size**: ~15KB (single HTML file)
-- **Load Time**: <100ms
-- **Dependencies**: Zero
-- **Browser Compatibility**: 95%+ of users
-
----
-
 **Made with ❤️ by [Your Name]**
 
 *If you found this project helpful, please give it a ⭐ star on GitHub!*
