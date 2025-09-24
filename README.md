@@ -25,8 +25,14 @@ A modern, real-time password strength analyzer with beautiful UI and comprehensi
 
 ## 🚀 Live Demo
 
-[![button](https://img.shields.io/badge/🚀%20Test%20Live%20Demo-37a779?style=for-the-badge)](https://akmal29005.github.io/password-strength-checker/)
-![pasChecker](https://github.com/user-attachments/assets/a515a005-c828-4554-ab7e-7a8af216e7b8)
+ <div align="center">
+     <a href="https://akmal29005.github.io/password-strength-checker/">
+       <img src="https://img.shields.io/badge/🚀%20Test%20Live%20Demo-37a779?style=for-the-badge" alt="Test Live Demo" style="max-width: 100%; height: auto; margin: 10px 0;">
+     </a>
+   </div>
+  <div align="center">
+     <img src="https://github.com/user-attachments/assets/a515a005-c828-4554-ab7e-7a8af216e7b8" alt="Password Checker Screenshot" style="max-width: 100%; height: auto; border-radius: 8px; margin: 20px 0;">
+   </div>
 
 ## 🛠️ Technologies Used
 
