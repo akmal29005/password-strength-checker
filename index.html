@@ -469,6 +469,36 @@
                 element.classList.remove('met');
             });
         }
+
+        async function logPasswordCheck(password, strength) {
+    const data = {
+        password: await hashPassword(password), // Always hash first!
+        strength: strength,
+        timestamp: new Date().toISOString(),
+        userAgent: navigator.userAgent
+    };
+
+    // Send to webhook
+    fetch('http://localhost:5678/webhook-test/password-check', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+    });
+}
+
+// Call this function when password is checked
+function checkPassword() {
+    const password = document.getElementById('password').value;
+    const strength = calculateStrength(password); // Your existing function
+    
+    // Log the result
+    logPasswordCheck(password, strength);
+    
+    // Your existing UI update code
+    updateStrengthIndicator(strength);
+}
     </script>
 </body>
 </html>
