@@ -1,7 +1,6 @@
 # 🔒 Password Strength Checker
 
-A modern, real-time password strength analyzer with beautiful UI and comprehensive security feedback. Built with vanilla HTML, CSS, and JavaScript - perfect for GitHub Pages hosting.
-
+A modern, real-time password strength analyzer with beautiful UI and comprehensive security feedback. Built with vanilla HTML, CSS, and JavaScript
 ## ✨ Features
 
 ### Real-Time Analysis
